@@ -41,4 +41,12 @@ public class SceneRail : SceneBase, IInteractiveElement
             }
         }
     }
+
+    // 只有
+    public bool CanInteract(MonoBehaviour Source)
+    {
+        ChildBehaviour childBehaviour = Source.GetComponent<ChildBehaviour>();
+        PlayerController Con = Source.GetComponent<PlayerController>();
+        return childBehaviour != null && childBehaviour.mType == ChildType.Chaos || Con != null;
+    }
 }

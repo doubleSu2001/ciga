@@ -26,4 +26,9 @@ public class SceneShelves : SceneBase, IInteractiveElement
         TrainNum++;
         return 0;
     }
+
+    public bool CanInteract(MonoBehaviour Source)
+    {
+        return true;// 谁都可以和货架交互
+    }
 }

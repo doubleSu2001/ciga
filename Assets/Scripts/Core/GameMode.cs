@@ -136,8 +136,8 @@ public class GameMode : MonoBehaviour
         
     }
 
-    // 在地上生成火车
-    public void SpawnActor(int type, Transform transform)
+    // 生成物体通用逻辑
+    public void SpawnActor(int type, Transform transform, int ParamInfo = 0)
     {
         if(PrefabMap.ContainsKey(type))
         {

@@ -152,7 +152,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
             }
         }
         IInteractiveElement Elem = CurScene.GetComponent<IInteractiveElement>();
-        if(Elem != null)
+        if(Elem != null && Elem.CanInteract(this))
         {
             TrainOnHand = Elem.TryInteract(TrainOnHand);
             if(TrainOnHand != 0)
@@ -188,5 +188,10 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
             GameMode.Instance.SpawnActor(TrainOnHand, transform);
             TrainOnHand = 0;
         }
+    }
+
+    public bool CanInteract(MonoBehaviour Source)
+    {
+        return Source.GetComponent<PlayerController>() != null;
     }
 }

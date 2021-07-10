@@ -7,6 +7,8 @@ public interface IInteractiveElement
 {
     // 试图交互 传入信号值 返回信号值
     int TryInteract(int InCode);
+
+    bool CanInteract(MonoBehaviour Source);
 }
 
 public interface IInteractiveSource

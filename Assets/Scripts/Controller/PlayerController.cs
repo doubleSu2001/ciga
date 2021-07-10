@@ -53,6 +53,29 @@ public class PlayerController : MonoBehaviour
         checkitems();
     }
 
+    void TryInteractive()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 2, 128);
+            for (int i = 0; i < cols.Length; i++)
+            {
+                IInteractiveElement Elem = cols[i].GetComponent<IInteractiveElement>();
+                if (Elem != null)
+                {
+                    var dir = (cols[i].transform.position - transform.position).normalized;
+                    if (Vector3.Angle(transform.up, dir) <= 60)
+                    {
+                        if(Elem.CanInteract(this))
+                        {
+                            Elem.TryInteract(handsitem);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     void checkitems()
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 2,0 << 8|1<<9);
