@@ -66,12 +66,31 @@ public class PlayerController : MonoBehaviour
                     if (Vector3.Angle(transform.up, dir) <= 60)
                     {
                         itemonfloor = cols[i].gameObject;
-                        break;
+                        return;
                     }
                 }
             }
         }
 
 
+    }
+    void checkchild()
+    {
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 2, 0 << 8 | 1 << 10);
+        if (cols.Length > 0)
+        {
+            for (int i = 0; i < cols.Length; i++)
+            {
+                if (cols[i].CompareTag("Child"))
+                {
+                    var dir = (cols[i].transform.position - transform.position).normalized;
+                    if (Vector3.Angle(transform.up, dir) <= 60)
+                    {
+                        childonfloor = cols[i].gameObject;
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
