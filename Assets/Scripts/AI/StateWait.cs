@@ -19,9 +19,14 @@ public class StateWait : StateBase
     }
     public override StateBase Tick(float Delta, MonoBehaviour Context)
     {
+        ChildBehaviour childBehaviour = Context as ChildBehaviour;
+        // 试图交互获取车
+        if(childBehaviour.IsArrive() && StateTick > childBehaviour.minCatchTrainTime && childBehaviour.TrainOnHand == 0)
+        {
+            childBehaviour.TryGetTrain();
+        }
         if (StateTick > WaitTime)
         {
-            ChildBehaviour childBehaviour = Context as ChildBehaviour;
             childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.Route));
             return new StateHang();//停留时间超过一定 则开始游荡
         }
