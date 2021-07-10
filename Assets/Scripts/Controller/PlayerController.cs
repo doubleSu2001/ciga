@@ -30,13 +30,20 @@ public class PlayerController : MonoBehaviour
         transform.up = (targetpos - transform.position).normalized;
         if (itemonfloor != null && handsitem == 0 && Input.GetMouseButtonDown(0))
         {
+            if (itemonfloor.name == "红车") handsitem = 1;
+            else if(itemonfloor.name == "黄车") handsitem = 2;
+            else if(itemonfloor.name == "绿车") handsitem = 3;
             Destroy(itemonfloor);
             itemonfloor = null;
-            handsitem = 1;
         }
         else if (handsitem != 0 && Input.GetMouseButtonDown(0) && childonfloor == null)
         {
-            Instantiate(GameMode.Instance.redtrain, transform.position + transform.up, Quaternion.identity);
+            if(handsitem == 1)
+                Instantiate(GameMode.Instance.redtrain, transform.position + transform.up, Quaternion.identity);
+            else if (handsitem == 2)
+                Instantiate(GameMode.Instance.yellowtrain, transform.position + transform.up, Quaternion.identity);
+            else if (handsitem == 3)
+                Instantiate(GameMode.Instance.greentrain, transform.position + transform.up, Quaternion.identity);
             handsitem = 0;
         }
     }
