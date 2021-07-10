@@ -57,7 +57,11 @@ public class GameMode : MonoBehaviour
     public UnityEvent OnWinEvent;
     [Header("失败事件")]
     public UnityEvent OnLoseEvent;
-
+    //三种火车预制体
+    [Header("火车预制体")]
+    public GameObject redtrain;
+    public GameObject yellowtrain;
+    public GameObject greentrain;
     [HideInInspector]
     public static GameMode Instance
     {
