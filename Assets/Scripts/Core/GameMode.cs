@@ -17,7 +17,7 @@ public class GameMode : MonoBehaviour
         [Header("出现时间"), SerializeField]
         public float Time;
         [Header("类型"), SerializeField]
-        public int Type;
+        public ChildType Type;
     }
     // 奖励配置
     [System.Serializable]
@@ -37,6 +37,7 @@ public class GameMode : MonoBehaviour
     public int MaxHappy = 100;
     [Header("最低胜利愉悦值")]
     public int MinWinHappy = 60;
+
     [Header("熊孩子出现波"), SerializeField]
     public List<ChildConfig> ChildWave;
     [Header("奖励配置"), SerializeField]
@@ -125,5 +126,6 @@ public class GameMode : MonoBehaviour
     {
         CurHappy += GiftMap[name].Value;
         CheckGameFinished();
+        
     }
 }
