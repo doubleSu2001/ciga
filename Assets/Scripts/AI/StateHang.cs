@@ -21,9 +21,9 @@ public class StateHang : StateBase
     {
         base.Tick(Delta, Context);
         ChildBehaviour childBehaviour = Context as ChildBehaviour;
-        if(childBehaviour.maxKeepTrainTime < childBehaviour.CurKeepTrainTime)
+        if(childBehaviour.CurKeepTrainTime > childBehaviour.maxKeepTrainTime)
         {
-            
+            childBehaviour.PushDownTrain();
         }
         if (StateTick > HangTime)//游荡20秒重新回归或者去看展
         {

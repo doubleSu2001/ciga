@@ -81,16 +81,24 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
     }
     void CheckCurScene()
     {
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 2, 0 << 8 | 1 << 9);
-        CurScene = null;
-        foreach(var it in cols)
+        // Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 2, 0 << 8 | 1 << 9);
+        if(IsStopped())
+        // if(Finder.isStopped)
         {
-            CurScene = it.GetComponent<SceneBase>();
-            if(CurScene != null)
-            {
-                return;
-            }
+            CurScene = TargetScenePoint;
         }
+        else
+        {
+            CurScene = null;
+        }
+        // foreach(var it in cols)
+        // {
+        //     CurScene = it.GetComponent<SceneBase>();
+        //     if(CurScene != null)
+        //     {
+        //         return;
+        //     }
+        // }
     }
 
     // 移动到某个场地
@@ -110,7 +118,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
 
     public bool IsStopped()
     {
-        return Finder.isStopped;
+        return Finder.velocity == Vector3.zero;
     }
 
     public bool IsEmptyHand()

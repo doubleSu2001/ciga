@@ -28,11 +28,6 @@ public class SceneRail : SceneBase, IInteractiveElement
     {
         return CurMs > 0;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        Type = SceneType.WaitPlace;
-    }
 
     // Update is called once per frame
     void Update()
