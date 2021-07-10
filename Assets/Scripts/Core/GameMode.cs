@@ -43,6 +43,9 @@ public class GameMode : MonoBehaviour
     [Header("奖励配置"), SerializeField]
     public List<GiftConfig> Gifts;
 
+    [Header("生成体代码")]
+    public Dictionary<int, GameObject> PrefabMap;
+
     Dictionary<string, GiftConfig> GiftMap;
 
     [HideInInspector]
@@ -77,10 +80,14 @@ public class GameMode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach(var it in Gifts)
+        PrefabMap = new Dictionary<int, GameObject>();
+        foreach (var it in Gifts)
         {
             GiftMap[it.name] = it;
         }
+        PrefabMap.Add(1, redtrain);
+        PrefabMap.Add(2, yellowtrain);
+        PrefabMap.Add(3, greentrain);
     }
 
     // Update is called once per frame
@@ -127,5 +134,18 @@ public class GameMode : MonoBehaviour
         CurHappy += GiftMap[name].Value;
         CheckGameFinished();
         
+    }
+
+    // 在地上生成火车
+    public void SpawnActor(int type, Transform transform)
+    {
+        if(PrefabMap.ContainsKey(type))
+        {
+            Instantiate(PrefabMap[type], transform.position + transform.up, Quaternion.identity);
+        }
+        else
+        {
+            print("生成物体" + type + "失败");
+        }
     }
 }

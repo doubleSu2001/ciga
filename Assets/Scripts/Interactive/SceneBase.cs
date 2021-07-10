@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum SceneType
 {
-    None,
-    Route,
-    WaitPlace,
+    None, 
+    Route, // 閒逛地點
+    WaitPlace, //等待地点 （如货架、火车轨道
     Exit
 }
 
@@ -17,8 +17,9 @@ public class SceneBase : MonoBehaviour
 {
     [Header("最大容量")]
     public int MaxCount;
-    [Header("当前人数")]
+
     public int CurCount;
+    public int CurTrainType;
 
     public SceneType Type = SceneType.None;
     // Start is called before the first frame update

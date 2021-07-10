@@ -13,7 +13,18 @@ public class StateStart : StateBase
     {
         base.Tick(Delta, Context);
         ChildBehaviour childBehaviour = Context as ChildBehaviour;
-        childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
+        if(childBehaviour.mType == ChildType.Chaos)
+        {
+            SceneRail Rail = GameObject.FindObjectOfType<SceneRail>();
+            if(!Rail.IsCoolingDown() && !Rail.bBroken)
+            {
+                childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
+            }
+        }
+        else
+        {
+            childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
+        }
         return new StateWait();
     }
 }
