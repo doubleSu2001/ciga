@@ -276,8 +276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316e422236a2ff8479aef7fb3465f1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentTime: 240
-  MaxTime: 240
   HpImage: {fileID: 4702784089838484436}
 --- !u!1 &2514667563008506755
 GameObject:
@@ -766,10 +764,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxTime: 30
+  StartHappy: 10
   MaxHappy: 100
   MinWinHappy: 60
   NeedWaitTime: 10
+  FaceKeepTime: 5
   ChildWave: []
+  WaveIndex: -1
+  BirthPlace: {fileID: 0}
   Gifts: []
   CurTime: 0
   CurHappy: 0
