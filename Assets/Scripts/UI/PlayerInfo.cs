@@ -14,9 +14,30 @@ public class PlayerInfo : MonoBehaviour
     public float time;
     void Start()
     {
-     
+        GameMode.Instance.OnHappyChange.AddListener(OnScoreChange);
     }
 
+    void OnScoreChange(float Delta)
+    {
+        if(Delta > 0)
+        {
+            ScoreImage[0].gameObject.SetActive(true);
+            ScoreImage[0].text = "+" + (int)Delta;
+        }
+        else
+        {
+            ScoreImage[1].gameObject.SetActive(true);
+            ScoreImage[1].text = "-" + (int)Delta;
+        }
+
+        Invoke("HideText", time);
+    }
+
+    void HideText()
+    {
+        ScoreImage[0].gameObject.SetActive(false);
+        ScoreImage[1].gameObject.SetActive(false);
+    }
 
     void Update()
     {

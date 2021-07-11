@@ -77,8 +77,23 @@ public class GameMode : MonoBehaviour
 
     [HideInInspector]
     public float CurTime;
+
+    public UnityEvent<float> OnHappyChange;
+
+    float curHappy;
     [HideInInspector]
-    public float CurHappy;
+    public float CurHappy
+    {
+        set
+        {
+            OnHappyChange.Invoke(value - curHappy);
+            curHappy = value;
+        }
+        get
+        {
+            return curHappy;
+        }
+    }
 
     bool bGameStart = false; // 游戏是否开始
     bool bGameEnd = false; // 游戏是否结束
@@ -152,7 +167,7 @@ public class GameMode : MonoBehaviour
         bGameStart = true;
         bGameEnd = false;
         bGameWin = false;
-        CurHappy = 0;
+        curHappy = StartHappy;
         CurTime = 0;
         WaveIndex = 0;
     }
