@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4519325149595282891}
   - component: {fileID: 6946305340687275744}
   - component: {fileID: 4618160249243465215}
+  - component: {fileID: 2108016679401405229}
   m_Layer: 0
   m_Name: childbear
   m_TagString: Untagged
@@ -205,6 +206,32 @@ MonoBehaviour:
   interpolatePathSwitches: 1
   switchPathInterpolationSpeed: 10
   targetCompatibility: {fileID: 0}
+--- !u!61 &2108016679401405229
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459269650468400210}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.7, y: 0.5}
+    newSize: {x: 0.7, y: 0.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1 &5791450417817864833
 GameObject:
   m_ObjectHideFlags: 0
