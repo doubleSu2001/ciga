@@ -13,7 +13,7 @@ public class TimeControl : MonoBehaviour
 
     void Update()
     {
-        HpImage.fillAmount = GameMode.Instance.CurTime / GameMode.Instance.MaxTime;
+        HpImage.fillAmount = (GameMode.Instance.MaxTime - GameMode.Instance.CurTime) / GameMode.Instance.MaxTime;
     }
 
 

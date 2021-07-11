@@ -24,7 +24,7 @@ public class OverHead : MonoBehaviour, ISpawnInfo
         else // 表情符号
         {
             bCount = false;
-            Destroy(slider);
+            slider.gameObject.SetActive(false);
             var Gift = GameMode.Instance.Gifts[i - 10];
             img.sprite = Gift.Image;
             Destroy(gameObject, GameMode.Instance.FaceKeepTime);
