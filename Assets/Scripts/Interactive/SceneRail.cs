@@ -42,11 +42,22 @@ public class SceneRail : SceneBase, IInteractiveElement
         }
     }
 
-    // 只有
+    // 只有主角修铁轨
     public bool CanInteract(MonoBehaviour Source)
     {
         ChildBehaviour childBehaviour = Source.GetComponent<ChildBehaviour>();
         PlayerController Con = Source.GetComponent<PlayerController>();
-        return childBehaviour != null && childBehaviour.mType == ChildType.Chaos || Con != null;
+        if(childBehaviour)
+        {
+            if(childBehaviour.mType == ChildType.Chaos && bBroken == false && !IsCoolingDown())
+            {
+                return true;
+            }
+        }
+        if(Con)
+        {
+
+        }
+        return false;
     }
 }
