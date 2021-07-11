@@ -11,6 +11,7 @@ public class StateWait : StateBase
         name = "观赏等待状态";
     }
     float WaitTime;
+    bool bTryGetTrain = false;
     public override void Enter(MonoBehaviour Context)
     {
         base.Enter(Context);
@@ -21,9 +22,13 @@ public class StateWait : StateBase
     {
         ChildBehaviour childBehaviour = Context as ChildBehaviour;
         // 试图交互获取车
-        if(childBehaviour.IsArrive() && StateTick > childBehaviour.minCatchTrainTime && childBehaviour.TrainOnHand == 0)
+        if(!bTryGetTrain && childBehaviour.IsArrive() && StateTick > childBehaviour.minCatchTrainTime && childBehaviour.TrainOnHand == 0)
         {
-            childBehaviour.TryGetTrain();
+            if(Random.Range(0f, 1f) > childBehaviour.probCatchTrain)
+            {
+                childBehaviour.TryGetTrain();
+            }
+            bTryGetTrain = true;//不管拿没拿 之后不会再尝试了
         }
         if (StateTick > WaitTime)
         {
