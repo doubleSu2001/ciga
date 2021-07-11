@@ -24,12 +24,12 @@ public class Rail : MonoBehaviour
             continuetrain();
         }
     }
-    void stoptrain()
+    public void stoptrain()
     {
         manim.speed = 0;
         alert_anim.SetBool("alert", true);
     }
-    void continuetrain()
+    public void continuetrain()
     {
         manim.speed = 1;
         alert_anim.SetBool("alert", false);

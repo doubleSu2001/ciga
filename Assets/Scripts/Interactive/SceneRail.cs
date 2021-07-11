@@ -17,7 +17,16 @@ public class SceneRail : SceneBase, IInteractiveElement
         {
             return 0;// 此时冷却中
         }
-        bBroken = InCode == 0;
+        bool broken = InCode == 0;
+        if(broken)
+        {
+            GetComponent<Rail>().stoptrain();
+        }
+        else
+        {
+            GetComponent<Rail>().continuetrain();
+        }
+        bBroken = broken;
         int Ret = CurTrainType;
         CurTrainType = InCode;
         CurMs = 0.1f;//启动冷却
@@ -49,14 +58,14 @@ public class SceneRail : SceneBase, IInteractiveElement
         PlayerController Con = Source.GetComponent<PlayerController>();
         if(childBehaviour)
         {
-            if(childBehaviour.mType == ChildType.Chaos && bBroken == false && !IsCoolingDown())
+            if(childBehaviour.mType == ChildType.Chaos && !bBroken && !IsCoolingDown())
             {
                 return true;
             }
         }
         if(Con)
         {
-
+            return Con.handsitem != 0;
         }
         return false;
     }
