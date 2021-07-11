@@ -64,6 +64,8 @@ public class GameMode : MonoBehaviour
     public int WaveIndex = -1;
     [Header("熊孩子出现位置")]
     public Transform BirthPlace;
+    [Header("熊孩子奖惩倍率")]
+    public float ChaosMulit;
 
     [Header("奖励配置"), SerializeField]
     public List<GiftConfig> Gifts;
@@ -199,36 +201,42 @@ public class GameMode : MonoBehaviour
         return null;
     }
 
-    public void ApplyGift(string type)
+    public void ApplyGift(string type, ChildBehaviour Source)
     {
         print("奖励:" + type);
         if(GiftMap.ContainsKey(type))
         {
-            CurHappy += GiftMap[type].Value;
+            float multi = 1.0f;
+            if(Source.mType == ChildType.Chaos)
+            {
+                multi = ChaosMulit;
+            }
+            Source.PlayOverHead(GiftMap[type].index + 10);
+            CurHappy += GiftMap[type].Value * multi;
             CheckGameFinished();
         }
     }
 
     public void OnGiveChildSuccessEvent()
     {
-        ApplyGift("递交成功");
+
     }
     public void OnGiveChildErrorEvent()
     {
-        ApplyGift("递交错误");
+
     }
     public void OnGiveChildFailEvent()
     {
-        ApplyGift("递交失败");
+
     }
 
     public void OnArrangeSuccessEvent()
     {
-        ApplyGift("收纳成功");
+
     }
     public void OnArrangeErrorEvent()
     {
-        ApplyGift("收纳错误");
+
     }
 
 }

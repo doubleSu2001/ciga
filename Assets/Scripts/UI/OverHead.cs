@@ -47,7 +47,7 @@ public class OverHead : MonoBehaviour, ISpawnInfo
             if (tick > GameMode.Instance.NeedWaitTime)
             {
                 target.FailEvent.Invoke();
-                target.PlayOverHead(GameMode.Instance.GiftMap["递交失败"].index + 10);
+                GameMode.Instance.ApplyGift("递交失败", target);
                 return;
             }
             slider.value = tick / GameMode.Instance.NeedWaitTime;

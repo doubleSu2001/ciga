@@ -226,12 +226,12 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         if(NeedTrain == InCode)
         {
             SuccessEvent.Invoke();// 给对
-            PlayOverHead(GameMode.Instance.GiftMap["递交成功"].index + 10);
+            GameMode.Instance.ApplyGift("递交成功", this);
         }
         else
         {
             ErrorEvent.Invoke();// 给错
-            PlayOverHead(GameMode.Instance.GiftMap["递交失败"].index + 10);
+            GameMode.Instance.ApplyGift("递交错误", this);
         }
         NeedTrain = 0;
         return 0;
