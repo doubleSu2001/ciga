@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 2491532737495680411}
   - component: {fileID: 7828652395812399}
   - component: {fileID: 1753692690625108272}
+  - component: {fileID: 7780379767424745874}
+  - component: {fileID: 4056309618083296568}
+  - component: {fileID: 8008572011117020265}
   m_Layer: 0
   m_Name: child1
   m_TagString: Untagged
@@ -101,3 +104,100 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7780379767424745874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314710855936726797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1730364f6f288d545baf66234e93e9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mAngent: {fileID: 0}
+  mRigidbody: {fileID: 0}
+  TargetScenePoint: {fileID: 0}
+  mType: 0
+  mOnHand: {fileID: 0}
+  mStateMachine:
+    CurState:
+      name: 
+      StateTick: 0
+    Context: {fileID: 0}
+  minCatchTrainTime: 5
+  probCatchTrain: 0.5
+  maxKeepTrainTime: 10
+  probToLeave: 0.2
+  minWaitTime: 10
+  maxWaitTime: 20
+  minHangTime: 10
+  maxHangTime: 20
+  maxLifeTime: 120
+  SepWantTrain: 30
+  NeedTrain: 0
+  CurScene: {fileID: 0}
+  CurKeepTrainTime: 0
+  WantAcc: 0
+  LifeTime: 0
+  SuccessEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  ErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  FailEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4056309618083296568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314710855936726797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &8008572011117020265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314710855936726797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847a14d4dc9cc43679ab34fc78e0182f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 2
+  repathRate: Infinity
+  canSearch: 1
+  canMove: 1
+  speed: 4
+  orientation: 1
+  enableRotation: 1
+  rotationSpeed: 30
+  interpolatePathSwitches: 1
+  switchPathInterpolationSpeed: 10
+  targetCompatibility: {fileID: 0}

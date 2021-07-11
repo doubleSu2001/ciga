@@ -772,9 +772,9 @@ MonoBehaviour:
   ChildWave: []
   WaveIndex: -1
   BirthPlace: {fileID: 0}
+  ChaosMulit: 0
   Gifts: []
   CurTime: 0
-  CurHappy: 0
   OnWinEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -782,7 +782,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   train: {fileID: 8865874793494395930, guid: 278526d682ecfe044bfda9eee24c4382, type: 3}
-  child: {fileID: 693089636574326056, guid: cdcfab28d89c4164e80bbcd7a944b421, type: 3}
+  children:
+  - {fileID: 314710855936726797, guid: e462a60ab2e2f034a8ace74d6cdec858, type: 3}
+  - {fileID: 5846686636177037031, guid: be06f6a728069014185b323514089ba1, type: 3}
+  - {fileID: 4459269650468400210, guid: 74bd2a4fa7923d14084edc63cb5c9413, type: 3}
   slider: {fileID: 14379041828643981, guid: 1ec73b500bf8ce248b502ff276d6a56e, type: 3}
   TrainSpriteMap:
   - {fileID: 0}
