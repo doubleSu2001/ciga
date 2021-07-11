@@ -691,7 +691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manim: {fileID: 572737580}
   mrigidbody: {fileID: 572737583}
-  movespeed: 3
+  movespeed: 8
   handsitem: 0
   HandsSprite: {fileID: 0}
 --- !u!61 &572737582

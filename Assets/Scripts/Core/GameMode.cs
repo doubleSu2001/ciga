@@ -14,6 +14,7 @@ public enum ESpawn
 {
     火车,
     熊孩子,
+    进度条,
 }
 
 
@@ -49,6 +50,8 @@ public class GameMode : MonoBehaviour
     public int MaxHappy = 100;
     [Header("最低胜利愉悦值")]
     public int MinWinHappy = 60;
+    [Header("熊孩子产生需求后等待的时间")]
+    public float NeedWaitTime = 10;
 
     [Header("熊孩子出现波"), SerializeField]
     public List<ChildConfig> ChildWave;
@@ -78,6 +81,8 @@ public class GameMode : MonoBehaviour
     public GameObject train;
     [Header("熊孩子预制体")]
     public GameObject child;
+    [Header("进度条预制体")]
+    public GameObject slider;
     [Header("三种火车的Sprite")]
     public List<Sprite> TrainSpriteMap;
     
@@ -98,6 +103,7 @@ public class GameMode : MonoBehaviour
         PrefabMap = new Dictionary<ESpawn, GameObject>();
         PrefabMap.Add(ESpawn.火车, train);
         PrefabMap.Add(ESpawn.熊孩子, child);
+        PrefabMap.Add(ESpawn.进度条, slider);
 
         foreach (var it in Gifts)
         {

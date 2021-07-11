@@ -56,8 +56,8 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     public int SepWantTrain = 30;
 
     public int TrainOnHand = 0;
-    
-    public int NeedTrain = 0; 
+
+    public int NeedTrain = 0;
     public SceneBase CurScene;
     public float CurKeepTrainTime;
     public float WantAcc = 0;
@@ -80,27 +80,22 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     void Update()
     {
         mStateMachine.Tick(Time.deltaTime);
-        if(TrainOnHand != 0)
+        if (TrainOnHand != 0)
         {
             CurKeepTrainTime += Time.deltaTime;
         }
-        else if(NeedTrain == 0)
+        else
         {
-            WantAcc += Time.deltaTime;
-            if(WantAcc > SepWantTrain)
-            {
-                WantAcc = 0;
-                NeedTrain = Random.Range(1, 4);
-            }
+            CheckNeedTrain();
         }
         LifeTime += Time.deltaTime;
-        
+
         CheckCurScene();
     }
     void CheckCurScene()
     {
         // Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 2, 0 << 8 | 1 << 9);
-        if(IsStopped())
+        if (IsStopped())
         // if(Finder.isStopped)
         {
             CurScene = TargetScenePoint;
@@ -119,6 +114,20 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         // }
     }
 
+    void CheckNeedTrain()
+    {
+        if(NeedTrain == 0 && TrainOnHand == 0)
+        {
+            WantAcc += Time.deltaTime;
+            if (WantAcc > SepWantTrain)
+            {
+                WantAcc = 0;
+                NeedTrain = Random.Range(1, 4);
+                var obj = GameMode.Instance.SpawnActor(ESpawn.进度条, transform, NeedTrain);
+                obj.GetComponent<OverHead>().SetTarget(this);
+            }
+        }
+    }
     // 移动到某个场地
     public void MoveToScenePoint(SceneBase To)
     {
