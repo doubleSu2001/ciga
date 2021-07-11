@@ -3869,7 +3869,7 @@ PrefabInstance:
     - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
         type: 3}
       propertyPath: Gifts.Array.data[1].Value
-      value: 20
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
         type: 3}
@@ -3886,12 +3886,12 @@ PrefabInstance:
     - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
         type: 3}
       propertyPath: Gifts.Array.data[2].Value
-      value: 10
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
         type: 3}
       propertyPath: Gifts.Array.data[3].Value
-      value: 5
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
         type: 3}
