@@ -146,8 +146,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
             {
                 WantAcc = 0;
                 NeedTrain = Random.Range(1, 4);
-                var obj = GameMode.Instance.SpawnActor(ESpawn.进度条, transform, NeedTrain);
-                obj.GetComponent<OverHead>().SetTarget(this);
+                PlayOverHead(NeedTrain);
             }
         }
     }
@@ -227,10 +226,12 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         if(NeedTrain == InCode)
         {
             SuccessEvent.Invoke();// 给对
+            PlayOverHead(GameMode.Instance.GiftMap["递交成功"].index + 10);
         }
         else
         {
             ErrorEvent.Invoke();// 给错
+            PlayOverHead(GameMode.Instance.GiftMap["递交失败"].index + 10);
         }
         NeedTrain = 0;
         return 0;
@@ -244,6 +245,12 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
             GameMode.Instance.SpawnActor(ESpawn.火车, transform, TrainOnHand);
             TrainOnHand = 0;
         }
+    }
+
+    public void PlayOverHead(int param)
+    {
+        var obj = GameMode.Instance.SpawnActor(ESpawn.进度条, transform, param);
+        obj.GetComponent<OverHead>().SetTarget(this);
     }
 
     public bool CanInteract(MonoBehaviour Source)

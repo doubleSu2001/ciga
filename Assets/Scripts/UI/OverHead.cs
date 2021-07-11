@@ -11,12 +11,24 @@ public class OverHead : MonoBehaviour, ISpawnInfo
     public float tick = 0;
     public ChildBehaviour target;
     public Vector3 UpBias = Vector3.up;
+    public bool bCount = true;
 
     public void SetParam(int i)
     {
-        img.sprite = GameMode.Instance.TrainSpriteMap[i];
-        slider.value = 0;
-        tick = 0;
+        if(i < 10) // 需求
+        {
+            img.sprite = GameMode.Instance.TrainSpriteMap[i];
+            slider.value = 0;
+            tick = 0;
+        }
+        else // 表情符号
+        {
+            bCount = false;
+            Destroy(slider);
+            var Gift = GameMode.Instance.Gifts[i - 10];
+            img.sprite = Gift.Image;
+            Destroy(gameObject, GameMode.Instance.FaceKeepTime);
+        }
     }
     
     public void SetTarget(ChildBehaviour child)
@@ -29,13 +41,17 @@ public class OverHead : MonoBehaviour, ISpawnInfo
     // Update is called once per frame
     void Update()
     {
-        tick += Time.deltaTime;
-        if(tick > GameMode.Instance.NeedWaitTime)
+        if(bCount)
         {
-            target.FailEvent.Invoke();
-            return;
+            tick += Time.deltaTime;
+            if (tick > GameMode.Instance.NeedWaitTime)
+            {
+                target.FailEvent.Invoke();
+                target.PlayOverHead(GameMode.Instance.GiftMap["递交失败"].index + 10);
+                return;
+            }
+            slider.value = tick / GameMode.Instance.NeedWaitTime;
         }
-        slider.value = tick / GameMode.Instance.NeedWaitTime;
         Vector3 first = Camera.main.WorldToScreenPoint(target.transform.position);
         RootImg.transform.position = first + UpBias;
     }
