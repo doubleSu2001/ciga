@@ -18,12 +18,12 @@ public class StateStart : StateBase
             SceneRail Rail = GameObject.FindObjectOfType<SceneRail>();
             if(!Rail.IsCoolingDown() && !Rail.bBroken)
             {
-                childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
+                childBehaviour.MoveToScenePoint(GameSceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
             }
         }
         else
         {
-            childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
+            childBehaviour.MoveToScenePoint(GameSceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
         }
         return new StateWait();
     }

@@ -30,12 +30,12 @@ public class StateHang : StateBase
         {
             if(Random.Range(0.0f,1.0f) < childBehaviour.probToLeave || childBehaviour.LifeTime > childBehaviour.maxLifeTime)
             {
-                childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.Exit));
+                childBehaviour.MoveToScenePoint(GameSceneManager.Instance.GetRandomScene(SceneType.Exit));
                 return new StateOut();
             }
             else
             {
-                childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
+                childBehaviour.MoveToScenePoint(GameSceneManager.Instance.GetRandomScene(SceneType.WaitPlace));
                 return new StateWait();
             }
         }
@@ -43,7 +43,7 @@ public class StateHang : StateBase
         {
             if(childBehaviour.IsStopped())
             {
-                childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.Route));
+                childBehaviour.MoveToScenePoint(GameSceneManager.Instance.GetRandomScene(SceneType.Route));
             }
         }
         return this;

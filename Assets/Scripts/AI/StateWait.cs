@@ -32,7 +32,7 @@ public class StateWait : StateBase
         }
         if (StateTick > WaitTime)
         {
-            childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.Route));
+            childBehaviour.MoveToScenePoint(GameSceneManager.Instance.GetRandomScene(SceneType.Route));
             return new StateHang();//停留时间超过一定 则开始游荡
         }
         return base.Tick(Delta, Context);

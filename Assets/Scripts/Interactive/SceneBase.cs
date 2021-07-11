@@ -25,7 +25,7 @@ public class SceneBase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.Instance.RigisterSceneObject(this);
+        GameSceneManager.Instance.RigisterSceneObject(this);
     }
 
     // Update is called once per frame
