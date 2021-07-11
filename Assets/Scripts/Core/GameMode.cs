@@ -78,7 +78,7 @@ public class GameMode : MonoBehaviour
     [HideInInspector]
     public float CurTime;
 
-    public UnityEvent<float> OnHappyChange;
+    public Animator manim;
 
     float curHappy;
     [HideInInspector]
@@ -86,7 +86,8 @@ public class GameMode : MonoBehaviour
     {
         set
         {
-            OnHappyChange.Invoke(value - curHappy);
+            GetComponentInChildren<PlayerInfo>().OnScoreChange(value - curHappy);
+            // OnHappyChange.Invoke(value - curHappy);
             curHappy = value;
         }
         get
@@ -106,8 +107,8 @@ public class GameMode : MonoBehaviour
     //三种火车预制体
     [Header("火车预制体")]
     public GameObject train;
-    [Header("熊孩子预制体")]
-    public GameObject child;
+    [Header("熊孩子预制体 0 1 正常 2 熊")]
+    public List<GameObject> children;
     [Header("进度条预制体")]
     public GameObject slider;
     [Header("三种火车的Sprite")]
@@ -130,7 +131,7 @@ public class GameMode : MonoBehaviour
         PrefabMap = new Dictionary<ESpawn, GameObject>();
         GiftMap = new Dictionary<string, GiftConfig>();
         PrefabMap.Add(ESpawn.火车, train);
-        PrefabMap.Add(ESpawn.熊孩子, child);
+        // PrefabMap.Add(ESpawn.熊孩子, child);
         PrefabMap.Add(ESpawn.进度条, slider);
 
         for(int i = 0; i < Gifts.Count; i++)
@@ -155,7 +156,16 @@ public class GameMode : MonoBehaviour
             {
                 for(int i = 0; i < ChildWave[WaveIndex].Count; i++)
                 {
-                    SpawnActor(ESpawn.熊孩子, BirthPlace, (int)ChildWave[WaveIndex].Type);
+                    int code = 1;
+                    if(ChildWave[WaveIndex].Type == ChildType.Chaos)
+                    {
+                        code = 3;
+                    }
+                    else
+                    {
+                        code = Random.Range(1, 3);
+                    }
+                    SpawnActor(ESpawn.熊孩子, BirthPlace, code);
                 }
                 WaveIndex++;
             }
@@ -199,21 +209,29 @@ public class GameMode : MonoBehaviour
     // 生成物体通用逻辑
     public GameObject SpawnActor(ESpawn type, Transform transform, int ParamInfo = 0)
     {
-        if(PrefabMap.ContainsKey(type))
+        GameObject temp = null;
+        if(type == ESpawn.熊孩子)
         {
-            var obj = Instantiate(PrefabMap[type], transform.position + transform.up, Quaternion.identity);
-            var info = obj.GetComponent<ISpawnInfo>();
-            if(info!= null)
+            if((ChildType)ParamInfo == ChildType.Chaos)
             {
-                info.SetParam(ParamInfo);
+                temp = children[2];
             }
-            return obj;
+            else
+            {
+                temp = children[Random.Range(1, 3)];
+            }
         }
-        else
+        else if(PrefabMap.ContainsKey(type))
         {
-            print("生成物体" + type + "失败");
+            temp = PrefabMap[type];
         }
-        return null;
+        var obj = Instantiate(temp, transform.position + transform.up, Quaternion.identity);
+        var info = obj.GetComponent<ISpawnInfo>();
+        if (info != null)
+        {
+            info.SetParam(ParamInfo);
+        }
+        return obj;
     }
 
     public void ApplyGift(string type, ChildBehaviour Source)
