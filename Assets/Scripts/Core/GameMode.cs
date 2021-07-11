@@ -42,26 +42,36 @@ public class GameMode : MonoBehaviour
         public int Value;
         [Header("奖励图标"), SerializeField]
         public Sprite Image;
+        [HideInInspector]
+        public int index;
     }
 
     [Header("倒计时时长")]
     public int MaxTime = 30;
+    [Header("初始愉悦值")]
+    public int StartHappy = 10;
     [Header("总愉悦值")]
     public int MaxHappy = 100;
     [Header("最低胜利愉悦值")]
     public int MinWinHappy = 60;
     [Header("熊孩子产生需求后等待的时间")]
     public float NeedWaitTime = 10;
+    [Header("表情出现时间")]
+    public float FaceKeepTime = 5;
 
     [Header("熊孩子出现波"), SerializeField]
     public List<ChildConfig> ChildWave;
+    public int WaveIndex = -1;
+    [Header("熊孩子出现位置")]
+    public Transform BirthPlace;
+
     [Header("奖励配置"), SerializeField]
     public List<GiftConfig> Gifts;
 
     [Header("生成体代码"), SerializeField]
     public Dictionary<ESpawn, GameObject> PrefabMap;
 
-    Dictionary<string, GiftConfig> GiftMap;
+    public Dictionary<string, GiftConfig> GiftMap;
 
     [HideInInspector]
     public float CurTime;
@@ -101,14 +111,21 @@ public class GameMode : MonoBehaviour
     void Start()
     {
         PrefabMap = new Dictionary<ESpawn, GameObject>();
+        GiftMap = new Dictionary<string, GiftConfig>();
         PrefabMap.Add(ESpawn.火车, train);
         PrefabMap.Add(ESpawn.熊孩子, child);
         PrefabMap.Add(ESpawn.进度条, slider);
 
-        foreach (var it in Gifts)
+        for(int i = 0; i < Gifts.Count; i++)
         {
-            GiftMap[it.name] = it;
+            var it = Gifts[i];
+            if (null != it && null != it.name)
+            {
+                GiftMap[it.name] = it;
+                it.index = i;
+            }
         }
+        StartGame();
     }
 
     // Update is called once per frame
@@ -117,6 +134,14 @@ public class GameMode : MonoBehaviour
         if (bGameStart)
         {
             CurTime += Time.deltaTime;
+            if(WaveIndex < ChildWave.Count && ChildWave[WaveIndex].Time < CurTime)
+            {
+                for(int i = 0; i < ChildWave[WaveIndex].Count; i++)
+                {
+                    SpawnActor(ESpawn.熊孩子, BirthPlace, (int)ChildWave[WaveIndex].Type);
+                }
+                WaveIndex++;
+            }
         }
     }
 
@@ -127,7 +152,10 @@ public class GameMode : MonoBehaviour
         bGameWin = false;
         CurHappy = 0;
         CurTime = 0;
+        WaveIndex = 0;
     }
+
+
 
     public void CheckGameFinished()
     {
@@ -149,13 +177,7 @@ public class GameMode : MonoBehaviour
             }
         }
     }
-
-    public void GetGift(string name)
-    {
-        CurHappy += GiftMap[name].Value;
-        CheckGameFinished();
-        
-    }
+    
 
     // 生成物体通用逻辑
     public GameObject SpawnActor(ESpawn type, Transform transform, int ParamInfo = 0)
@@ -182,8 +204,8 @@ public class GameMode : MonoBehaviour
         print("奖励:" + type);
         if(GiftMap.ContainsKey(type))
         {
-            var Config = GiftMap[type];
-            GetComponentInChildren<HpControl>().AddHp(Config.Value);
+            CurHappy += GiftMap[type].Value;
+            CheckGameFinished();
         }
     }
 

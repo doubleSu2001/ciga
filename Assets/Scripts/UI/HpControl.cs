@@ -19,15 +19,11 @@ public class HpControl : MonoBehaviour
     {
         instance = this;
     }
-    void Start()
-    {
-
-    }
 
    
     void Update()
     {
-        HpImage.fillAmount = CurrentHp / MaxHp;
+        HpImage.fillAmount = GameMode.Instance.CurHappy / GameMode.Instance.MaxHappy;
     }
 
     /// <summary>

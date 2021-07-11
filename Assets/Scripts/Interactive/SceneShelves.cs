@@ -23,6 +23,10 @@ public class SceneShelves : SceneBase, IInteractiveElement
             TrainNum--;
             return OriginTrainType;
         }
+        else
+        {
+
+        }
         TrainNum++;
         return 0;
     }
