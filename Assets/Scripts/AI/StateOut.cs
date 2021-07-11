@@ -12,6 +12,11 @@ public class StateOut : StateBase
 
     public override StateBase Tick(float Delta, MonoBehaviour Context)
     {
+        ChildBehaviour childBehaviour = Context as ChildBehaviour;
+        if (childBehaviour.IsStopped())
+        {
+            childBehaviour.Hide();
+        }
         return base.Tick(Delta, Context);
     }
 }

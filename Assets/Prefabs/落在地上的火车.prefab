@@ -144,3 +144,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TrainType: 1
+  mSprite: {fileID: 8865874793494396007}

@@ -24,7 +24,7 @@ public enum ChildType
 
 
 // 熊孩子的行为逻辑
-public class ChildBehaviour : MonoBehaviour, IInteractiveElement
+public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
 {
     public NavMeshAgent mAngent;
     public Pathfinding.IAstarAI Finder;
@@ -36,26 +36,32 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
 
 
     [Header("驻留货架多久后拿火车")]
-    public float minCatchTrainTime;
+    public float minCatchTrainTime = 5;
     [Header("持有火车时间")]
-    public float maxKeepTrainTime;
+    public float maxKeepTrainTime = 10;
 
-
+    [Header("驻留后离开的概率")]
+    public float probToLeave = 0.2f;
     [Header("最短驻留时间")]
-    public float minWaitTime;
+    public float minWaitTime = 10;
     [Header("最长驻留时间")]
-    public float maxWaitTime;
+    public float maxWaitTime = 20;
     [Header("最短閒逛时间")]
-    public float minHangTime;
+    public float minHangTime = 10;
     [Header("最长閒逛时间")]
-    public float maxHangTime;
+    public float maxHangTime = 20;
+    [Header("最长生命周期")]
+    public float maxLifeTime = 120;
+    [Header("想要的间隔")]
+    public int SepWantTrain = 30;
 
     public int TrainOnHand = 0;
-
-    [Header("当前需要的火车")]
+    
     public int NeedTrain = 0; 
     public SceneBase CurScene;
     public float CurKeepTrainTime;
+    public float WantAcc = 0;
+    public float LifeTime;
 
     public UnityEvent SuccessEvent;
     public UnityEvent FailEvent;
@@ -67,6 +73,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
         mRigidbody = GetComponent<Rigidbody2D>();
         mStateMachine = new StateMachine(new StateStart(), this);
         Finder = GetComponent<Pathfinding.IAstarAI>();
+        LifeTime = 0;
     }
 
     // Update is called once per frame
@@ -77,6 +84,17 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
         {
             CurKeepTrainTime += Time.deltaTime;
         }
+        else if(NeedTrain == 0)
+        {
+            WantAcc += Time.deltaTime;
+            if(WantAcc > SepWantTrain)
+            {
+                WantAcc = 0;
+                NeedTrain = Random.Range(1, 4);
+            }
+        }
+        LifeTime += Time.deltaTime;
+        
         CheckCurScene();
     }
     void CheckCurScene()
@@ -104,6 +122,10 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
     // 移动到某个场地
     public void MoveToScenePoint(SceneBase To)
     {
+        if(To == null)
+        {
+            return;
+        }
         TargetScenePoint = To;
         To.Arrive();
         // mAngent.SetDestination(To.GetPosition());
@@ -114,6 +136,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
     public void Hide()
     {
         gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     public bool IsStopped()
@@ -185,7 +208,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
     {
         if(TrainOnHand != 0)
         {
-            GameMode.Instance.SpawnActor(TrainOnHand, transform);
+            GameMode.Instance.SpawnActor(ESpawn.火车, transform, TrainOnHand);
             TrainOnHand = 0;
         }
     }
@@ -193,5 +216,10 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement
     public bool CanInteract(MonoBehaviour Source)
     {
         return Source.GetComponent<PlayerController>() != null;
+    }
+
+    public void SetParam(int i)
+    {
+        mType = (ChildType)i;
     }
 }

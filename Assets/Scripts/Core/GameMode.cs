@@ -4,6 +4,18 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
+public interface ISpawnInfo
+{
+    void SetParam(int i);
+}
+
+[System.Serializable]
+public enum ESpawn
+{
+    火车,
+    熊孩子,
+}
+
 
 
 public class GameMode : MonoBehaviour
@@ -43,8 +55,8 @@ public class GameMode : MonoBehaviour
     [Header("奖励配置"), SerializeField]
     public List<GiftConfig> Gifts;
 
-    [Header("生成体代码")]
-    public Dictionary<int, GameObject> PrefabMap;
+    [Header("生成体代码"), SerializeField]
+    public Dictionary<ESpawn, GameObject> PrefabMap;
 
     Dictionary<string, GiftConfig> GiftMap;
 
@@ -63,9 +75,12 @@ public class GameMode : MonoBehaviour
     public UnityEvent OnLoseEvent;
     //三种火车预制体
     [Header("火车预制体")]
-    public GameObject redtrain;
-    public GameObject yellowtrain;
-    public GameObject greentrain;
+    public GameObject train;
+    [Header("熊孩子预制体")]
+    public GameObject child;
+    [Header("三种火车的Sprite")]
+    public List<Sprite> TrainSpriteMap;
+    
     [HideInInspector]
     public static GameMode Instance
     {
@@ -80,14 +95,14 @@ public class GameMode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PrefabMap = new Dictionary<int, GameObject>();
+        PrefabMap = new Dictionary<ESpawn, GameObject>();
+        PrefabMap.Add(ESpawn.火车, train);
+        PrefabMap.Add(ESpawn.熊孩子, child);
+
         foreach (var it in Gifts)
         {
             GiftMap[it.name] = it;
         }
-        PrefabMap.Add(1, redtrain);
-        PrefabMap.Add(2, yellowtrain);
-        PrefabMap.Add(3, greentrain);
     }
 
     // Update is called once per frame
@@ -137,15 +152,22 @@ public class GameMode : MonoBehaviour
     }
 
     // 生成物体通用逻辑
-    public void SpawnActor(int type, Transform transform, int ParamInfo = 0)
+    public GameObject SpawnActor(ESpawn type, Transform transform, int ParamInfo = 0)
     {
         if(PrefabMap.ContainsKey(type))
         {
-            Instantiate(PrefabMap[type], transform.position + transform.up, Quaternion.identity);
+            var obj = Instantiate(PrefabMap[type], transform.position + transform.up, Quaternion.identity);
+            var info = obj.GetComponent<ISpawnInfo>();
+            if(info!= null)
+            {
+                info.SetParam(ParamInfo);
+            }
+            return obj;
         }
         else
         {
             print("生成物体" + type + "失败");
         }
+        return null;
     }
 }

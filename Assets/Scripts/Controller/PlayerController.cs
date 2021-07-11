@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private GameObject itemonfloor = null;
     private GameObject childonfloor = null;
     //private GameObject itemonhand = null;
+    public SpriteRenderer HandsSprite;
+
     // Update is called once per frame
     void Update()
     {
@@ -26,53 +28,70 @@ public class PlayerController : MonoBehaviour
         {
             manim.SetBool("run", true);
         }
+        if(HandsSprite)
+        {
+            HandsSprite.sprite = GameMode.Instance.TrainSpriteMap[handsitem];
+        }
         var targetpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.up = (targetpos - transform.position).normalized;
-        if (itemonfloor != null && handsitem == 0 && Input.GetMouseButtonDown(0))
-        {
-            if (itemonfloor.name == "红车") handsitem = 1;
-            else if(itemonfloor.name == "黄车") handsitem = 2;
-            else if(itemonfloor.name == "绿车") handsitem = 3;
-            Destroy(itemonfloor);
-            itemonfloor = null;
-        }
-        else if (handsitem != 0 && Input.GetMouseButtonDown(0) && childonfloor == null)
-        {
-            if(handsitem == 1)
-                Instantiate(GameMode.Instance.redtrain, transform.position + transform.up, Quaternion.identity);
-            else if (handsitem == 2)
-                Instantiate(GameMode.Instance.yellowtrain, transform.position + transform.up, Quaternion.identity);
-            else if (handsitem == 3)
-                Instantiate(GameMode.Instance.greentrain, transform.position + transform.up, Quaternion.identity);
-            handsitem = 0;
-        }
+        TryInteractive();
+        // if (itemonfloor != null && handsitem == 0 && Input.GetMouseButtonDown(0))
+        // {
+        //     if (itemonfloor.name == "红车") handsitem = 1;
+        //     else if(itemonfloor.name == "黄车") handsitem = 2;
+        //     else if(itemonfloor.name == "绿车") handsitem = 3;
+        //     Destroy(itemonfloor);
+        //     itemonfloor = null;
+        // }
+        // else if (handsitem != 0 && Input.GetMouseButtonDown(0) && childonfloor == null)
+        // {
+        //     if(handsitem == 1)
+        //         Instantiate(GameMode.Instance.redtrain, transform.position + transform.up, Quaternion.identity);
+        //     else if (handsitem == 2)
+        //         Instantiate(GameMode.Instance.yellowtrain, transform.position + transform.up, Quaternion.identity);
+        //     else if (handsitem == 3)
+        //         Instantiate(GameMode.Instance.greentrain, transform.position + transform.up, Quaternion.identity);
+        //     handsitem = 0;
+        // }
     }
     private void FixedUpdate()
     {
         mrigidbody.MovePosition(mrigidbody.position + movement * movespeed * Time.fixedDeltaTime);
-        checkitems();
+        // checkitems();
     }
-
+    bool bBtnCoolDown;
     void TryInteractive()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(bBtnCoolDown && Input.GetMouseButtonDown(0))
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 2, 128);
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position + transform.up, 1.5f);
             for (int i = 0; i < cols.Length; i++)
             {
                 IInteractiveElement Elem = cols[i].GetComponent<IInteractiveElement>();
                 if (Elem != null)
                 {
                     var dir = (cols[i].transform.position - transform.position).normalized;
+                    dir.z = 0;
                     if (Vector3.Angle(transform.up, dir) <= 60)
                     {
                         if(Elem.CanInteract(this))
                         {
-                            Elem.TryInteract(handsitem);
+                            handsitem = Elem.TryInteract(handsitem);
+                            bBtnCoolDown = false;
+                            return;
                         }
                     }
                 }
             }
+            if(handsitem != 0)
+            {
+                GameMode.Instance.SpawnActor(ESpawn.火车, transform, handsitem);
+                handsitem = 0;
+            }
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            bBtnCoolDown = true;
         }
     }
 

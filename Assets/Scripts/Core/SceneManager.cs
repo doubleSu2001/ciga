@@ -40,6 +40,11 @@ public class SceneManager : MonoBehaviour
 
     public SceneBase GetRandomScene(SceneType Type = SceneType.None)
     {
+        if(!ObjMap.ContainsKey(Type))
+        {
+            print("不存在的类型" + Type);
+            return null;
+        }
         List<SceneBase> ObjList = ObjMap[Type];
         return ObjList[Random.Range(0, ObjList.Count - 1)];
     }

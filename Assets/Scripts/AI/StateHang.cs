@@ -25,9 +25,10 @@ public class StateHang : StateBase
         {
             childBehaviour.PushDownTrain();
         }
+
         if (StateTick > HangTime)//游荡20秒重新回归或者去看展
         {
-            if(Random.Range(0,1) > 0.5)
+            if(Random.Range(0.0f,1.0f) < childBehaviour.probToLeave || childBehaviour.LifeTime > childBehaviour.maxLifeTime)
             {
                 childBehaviour.MoveToScenePoint(SceneManager.Instance.GetRandomScene(SceneType.Exit));
                 return new StateOut();
