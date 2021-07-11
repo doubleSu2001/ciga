@@ -160,6 +160,7 @@ MonoBehaviour:
   MaxTime: 30
   MaxHappy: 100
   MinWinHappy: 60
+  NeedWaitTime: 10
   ChildWave: []
   Gifts: []
   CurTime: 0
@@ -170,6 +171,10 @@ MonoBehaviour:
   OnLoseEvent:
     m_PersistentCalls:
       m_Calls: []
+  train: {fileID: 0}
+  child: {fileID: 0}
+  slider: {fileID: 0}
+  TrainSpriteMap: []
 --- !u!114 &83648637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +242,7 @@ MonoBehaviour:
   MaxTime: 30
   MaxHappy: 100
   MinWinHappy: 60
+  NeedWaitTime: 10
   ChildWave: []
   Gifts: []
   CurTime: 0
@@ -247,6 +253,10 @@ MonoBehaviour:
   OnLoseEvent:
     m_PersistentCalls:
       m_Calls: []
+  train: {fileID: 0}
+  child: {fileID: 0}
+  slider: {fileID: 0}
+  TrainSpriteMap: []
 --- !u!114 &128201103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 2
 --- !u!212 &441868256
 SpriteRenderer:
@@ -870,6 +881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 1
 --- !u!212 &632072180
 SpriteRenderer:
@@ -1137,6 +1149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 1
 --- !u!212 &876831891
 SpriteRenderer:
@@ -1340,16 +1353,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mAngent: {fileID: 0}
   mRigidbody: {fileID: 0}
-  ScenePoint: {fileID: 0}
+  TargetScenePoint: {fileID: 0}
+  mType: 0
+  mOnHand: {fileID: 0}
   mStateMachine:
     CurState:
       name: 
       StateTick: 0
     Context: {fileID: 0}
+  minCatchTrainTime: 5
+  probCatchTrain: 0.5
+  maxKeepTrainTime: 10
+  probToLeave: 0.2
   minWaitTime: 5
   maxWaitTime: 10
   minHangTime: 5
   maxHangTime: 10
+  maxLifeTime: 120
+  SepWantTrain: 30
+  NeedTrain: 0
+  CurScene: {fileID: 0}
+  CurKeepTrainTime: 0
+  WantAcc: 0
+  LifeTime: 0
+  SuccessEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  FailEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &987215084
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,6 +1700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 1
 --- !u!212 &1081711727
 SpriteRenderer:
@@ -1846,6 +1879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 2
 --- !u!212 &1192219977
 SpriteRenderer:
@@ -1974,6 +2008,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 3
 --- !u!212 &1323675186
 SpriteRenderer:
@@ -2214,6 +2249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 1
 --- !u!212 &1504889569
 SpriteRenderer:
@@ -2631,6 +2667,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 1
 --- !u!212 &1835070001
 SpriteRenderer:
@@ -2728,6 +2765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 2
 --- !u!212 &1904337196
 SpriteRenderer:
@@ -2822,13 +2860,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb72fbee2c00bb845bbb47b0056dca46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Children: {fileID: 5518012112081897903, guid: caa34614a9fa0494fb4f5ac527306484,
-    type: 3}
-  Item:
-  - {fileID: 21300000, guid: 965672e48a43f4442901feb9a6dda74a, type: 3}
-  - {fileID: 21300000, guid: 1e7d1d46b8a9f504c8f8c8bab80e6363, type: 3}
-  - {fileID: 21300000, guid: 0a4ee3a024f077d4ea505d51fb3af0f2, type: 3}
-  - {fileID: 21300000, guid: ad6b4ad9b43112649929546010ff9788, type: 3}
 --- !u!1 &2030135866
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,6 +2906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxCount: 0
   CurCount: 0
+  CurTrainType: 0
   Type: 1
 --- !u!212 &2030135869
 SpriteRenderer:
@@ -3592,6 +3624,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3769280048825681889, guid: cdcfab28d89c4164e80bbcd7a944b421,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3769280048825681889, guid: cdcfab28d89c4164e80bbcd7a944b421,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4734470520231020281, guid: cdcfab28d89c4164e80bbcd7a944b421,
         type: 3}
       propertyPath: m_Sprite
@@ -3667,6 +3709,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6798596956377519294, guid: cdcfab28d89c4164e80bbcd7a944b421,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6798596956377519295, guid: cdcfab28d89c4164e80bbcd7a944b421,
         type: 3}
