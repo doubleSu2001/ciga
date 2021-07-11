@@ -30,10 +30,22 @@ public class PlayerController : MonoBehaviour
         }
         if(HandsSprite)
         {
-            HandsSprite.sprite = GameMode.Instance.TrainSpriteMap[handsitem];
+            if(GameMode.Instance.TrainSpriteMap.Count>handsitem)
+            {
+                HandsSprite.sprite = GameMode.Instance.TrainSpriteMap[handsitem];
+            }
+            else
+            {
+                print("error:");
+                print(handsitem);
+                print(GameMode.Instance.TrainSpriteMap.Count);
+                print(GameMode.Instance.gameObject);
+            }
         }
         var targetpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.up = (targetpos - transform.position).normalized;
+        var dir = (targetpos - transform.position).normalized;
+        dir.z = 0;
+        transform.up = dir;
         TryInteractive();
         // if (itemonfloor != null && handsitem == 0 && Input.GetMouseButtonDown(0))
         // {

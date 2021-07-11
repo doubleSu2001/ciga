@@ -31,12 +31,15 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     public Rigidbody2D mRigidbody;
     public SceneBase TargetScenePoint;
     public ChildType mType;
+    public SpriteRenderer mOnHand;
     [SerializeField]
     public StateMachine mStateMachine;
 
 
     [Header("驻留货架多久后拿火车")]
     public float minCatchTrainTime = 5;
+    [Header("主动拿货架火车的概率")]
+    public float probCatchTrain = 0.5f;
     [Header("持有火车时间")]
     public float maxKeepTrainTime = 10;
 
@@ -55,14 +58,25 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     [Header("想要的间隔")]
     public int SepWantTrain = 30;
 
-    public int TrainOnHand = 0;
+    int mTrainOnHand = 0;
+    public int TrainOnHand
+    {
+        get {return mTrainOnHand; }
+        set {
+            if(value != mTrainOnHand)
+            {
+                mOnHand.sprite = GameMode.Instance.TrainSpriteMap[value];
+            }
+            mTrainOnHand = value;
+        }
+    }
 
     public int NeedTrain = 0;
     public SceneBase CurScene;
     public float CurKeepTrainTime;
     public float WantAcc = 0;
     public float LifeTime;
-
+    
     public UnityEvent SuccessEvent;
     public UnityEvent FailEvent;
 
@@ -74,6 +88,8 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         mStateMachine = new StateMachine(new StateStart(), this);
         Finder = GetComponent<Pathfinding.IAstarAI>();
         LifeTime = 0;
+        SuccessEvent.AddListener(OnGiveEnd);
+        FailEvent.AddListener(OnGiveEnd);
     }
 
     // Update is called once per frame
@@ -113,6 +129,8 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         //     }
         // }
     }
+
+
 
     void CheckNeedTrain()
     {
@@ -165,7 +183,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
 
     public bool TryGetTrain()
     {
-        if(TrainOnHand != 0)
+        if(TrainOnHand != 0 || NeedTrain != 0)
         {
             return false;
         }
@@ -200,6 +218,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     public int TryInteract(int InCode)
     {
         TrainOnHand = InCode;
+        print("给了火车");
         if(NeedTrain == InCode)
         {
             SuccessEvent.Invoke();
@@ -224,11 +243,20 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
 
     public bool CanInteract(MonoBehaviour Source)
     {
+        if (NeedTrain == 0)
+            return false;
         return Source.GetComponent<PlayerController>() != null;
     }
 
     public void SetParam(int i)
     {
         mType = (ChildType)i;
+    }
+    
+
+    public void OnGiveEnd()
+    {
+        NeedTrain = 0;
+        WantAcc = 0;
     }
 }

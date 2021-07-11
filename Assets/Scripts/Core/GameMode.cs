@@ -176,4 +176,37 @@ public class GameMode : MonoBehaviour
         }
         return null;
     }
+
+    public void ApplyGift(string type)
+    {
+        print("奖励:" + type);
+        if(GiftMap.ContainsKey(type))
+        {
+            var Config = GiftMap[type];
+            GetComponentInChildren<HpControl>().AddHp(Config.Value);
+        }
+    }
+
+    public void OnGiveChildSuccessEvent()
+    {
+        ApplyGift("递交成功");
+    }
+    public void OnGiveChildErrorEvent()
+    {
+        ApplyGift("递交错误");
+    }
+    public void OnGiveChildFailEvent()
+    {
+        ApplyGift("递交失败");
+    }
+
+    public void OnArrangeSuccessEvent()
+    {
+        ApplyGift("收纳成功");
+    }
+    public void OnArrangeErrorEvent()
+    {
+        ApplyGift("收纳错误");
+    }
+
 }

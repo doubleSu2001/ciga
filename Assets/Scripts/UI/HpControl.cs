@@ -21,13 +21,13 @@ public class HpControl : MonoBehaviour
     }
     void Start()
     {
-        CurrentHp = MaxHp;
+
     }
 
    
     void Update()
     {
-     
+        HpImage.fillAmount = CurrentHp / MaxHp;
     }
 
     /// <summary>
@@ -59,6 +59,11 @@ public class HpControl : MonoBehaviour
             if (CurrentHp >= MaxHp)
             {
                 CurrentHp = MaxHp;
+            }
+            if (CurrentHp <= 0)
+            {
+                gameover.SetActive(true);
+                IsGameOver = true;
             }
             HpImage.fillAmount = CurrentHp / MaxHp;
         }    
