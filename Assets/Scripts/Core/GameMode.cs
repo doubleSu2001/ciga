@@ -78,7 +78,6 @@ public class GameMode : MonoBehaviour
     [HideInInspector]
     public float CurTime;
 
-    public Animator manim;
 
     float curHappy;
     [HideInInspector]

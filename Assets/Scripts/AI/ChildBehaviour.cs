@@ -55,6 +55,8 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     public float maxHangTime = 20;
     [Header("最长生命周期")]
     public float maxLifeTime = 120;
+    [Header("哭的时间")]
+    public float cryTime = 10;
     [Header("想要的间隔")]
     public int SepWantTrain = 30;
 
@@ -70,6 +72,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
             mTrainOnHand = value;
         }
     }
+    public Animator manim;
 
     public int NeedTrain = 0;
     public SceneBase CurScene;
@@ -81,11 +84,14 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     public UnityEvent ErrorEvent;
     public UnityEvent FailEvent;
 
+    public float curCryTime = -1;
+
     // Start is called before the first frame update
     void Start()
     {
         mAngent = GetComponent<NavMeshAgent>();
         mRigidbody = GetComponent<Rigidbody2D>();
+        manim = GetComponent<Animator>();
         mStateMachine = new StateMachine(new StateStart(), this);
         Finder = GetComponent<Pathfinding.IAstarAI>();
         LifeTime = 0;
@@ -110,8 +116,32 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
             CheckNeedTrain();
         }
         LifeTime += Time.deltaTime;
+        if(curCryTime>0)
+        {
+            curCryTime -= Time.deltaTime;
+            manim.SetBool("cry", true);
+        }
+        else
+        {
+            manim.SetBool("cry", false);
+            if (IsStopped())
+            {
+                manim.SetBool("walk", false);
+            }
+            else
+            {
+                manim.SetBool("walk", true);
+            }
+        }
 
         CheckCurScene();
+        if(curCryTime <=0 && CurScene != null && CurScene.GetComponent<SceneRail>())
+        {
+            if(CurScene.GetComponent<SceneRail>().bBroken)
+            {
+                curCryTime += cryTime;
+            }
+        }
     }
     void CheckCurScene()
     {
@@ -270,5 +300,9 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     {
         NeedTrain = 0;
         WantAcc = 0;
+        if(mTrainOnHand==0)
+        {
+            curCryTime += cryTime;
+        }
     }
 }

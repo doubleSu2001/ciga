@@ -12,12 +12,8 @@ public class PlayerInfo : MonoBehaviour
     public Text[] ScoreImage;
     [Header("字体存在时间")]
     public float time;
-    void Start()
-    {
-        GameMode.Instance.OnHappyChange.AddListener(OnScoreChange);
-    }
 
-    void OnScoreChange(float Delta)
+    public void OnScoreChange(float Delta)
     {
         if(Delta > 0)
         {
