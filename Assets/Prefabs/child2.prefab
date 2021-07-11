@@ -165,7 +165,7 @@ SpriteRenderer:
   m_Size: {x: 0.7, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &5846686636177037028
@@ -209,7 +209,7 @@ MonoBehaviour:
       name: 
       StateTick: 0
     Context: {fileID: 0}
-  minCatchTrainTime: 5
+  minCatchTrainTime: 3
   probCatchTrain: 0.5
   maxKeepTrainTime: 10
   probToLeave: 0.2
@@ -218,8 +218,8 @@ MonoBehaviour:
   minHangTime: 10
   maxHangTime: 20
   maxLifeTime: 120
-  cryTime: 10
-  SepWantTrain: 30
+  cryTime: 3
+  SepWantTrain: 10
   manim: {fileID: 0}
   NeedTrain: 0
   CurScene: {fileID: 0}
@@ -233,6 +233,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   FailEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDestoryEvent:
     m_PersistentCalls:
       m_Calls: []
   curCryTime: -1
