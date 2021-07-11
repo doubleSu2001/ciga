@@ -83,6 +83,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     public UnityEvent SuccessEvent;
     public UnityEvent ErrorEvent;
     public UnityEvent FailEvent;
+    public UnityEvent OnDestoryEvent;
 
     public float curCryTime = -1;
 
@@ -304,5 +305,9 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         {
             curCryTime += cryTime;
         }
+    }
+    private void OnDestroy()
+    {
+        OnDestoryEvent.Invoke();
     }
 }

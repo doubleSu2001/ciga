@@ -34,8 +34,14 @@ public class OverHead : MonoBehaviour, ISpawnInfo
     public void SetTarget(ChildBehaviour child)
     {
         target = child;
+        target.OnDestoryEvent.AddListener(End);
         child.FailEvent.AddListener(OnEnd);
         child.SuccessEvent.AddListener(OnEnd);
+    }
+
+    void End()
+    {
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
