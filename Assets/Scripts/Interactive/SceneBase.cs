@@ -42,6 +42,8 @@ public class SceneBase : MonoBehaviour
     public Vector3 GetPosition()
     {
         var ret = transform.position;
+        var rd = new Vector3(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f), 0);
+        ret += rd;
         ret.z = 0;
         return ret;
     }

@@ -15,12 +15,34 @@ public class HpControl : MonoBehaviour
     public GameObject gameover;
     [Header("是否游戏结束")]
     private bool IsGameOver=false;
+
+    public Sprite WinSprite;
+    public Sprite FailSprite;
+
+
     private void Awake()
     {
         instance = this;
     }
+    private void Start()
+    {
+        GameMode.Instance.OnWinEvent.AddListener(ShowWin);
+        GameMode.Instance.OnLoseEvent.AddListener(ShowLose);
+    }
 
-   
+    void ShowWin()
+    {
+        gameover.SetActive(true);
+        gameover.GetComponent<Image>().sprite = WinSprite;
+        gameover.GetComponent<Image>().SetNativeSize();
+    }
+    void ShowLose()
+    {
+        gameover.SetActive(true);
+        gameover.GetComponent<Image>().sprite = FailSprite;
+        gameover.GetComponent<Image>().SetNativeSize();
+    }
+
     void Update()
     {
         HpImage.fillAmount = GameMode.Instance.CurHappy / GameMode.Instance.MaxHappy;
