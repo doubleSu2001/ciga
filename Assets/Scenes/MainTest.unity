@@ -1549,6 +1549,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
+        type: 3}
+      propertyPath: ChildWave.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
+        type: 3}
+      propertyPath: child
+      value: 
+      objectReference: {fileID: 693089636574326056, guid: cdcfab28d89c4164e80bbcd7a944b421,
+        type: 3}
+    - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
+        type: 3}
+      propertyPath: ChildWave.Array.data[0].Count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6446343254066579613, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
+        type: 3}
+      propertyPath: ChildWave.Array.data[0].Time
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6446343254066579615, guid: 83ceba7a5a1de8645aaa0c766412e2b9,
         type: 3}
       propertyPath: m_LocalPosition.x
