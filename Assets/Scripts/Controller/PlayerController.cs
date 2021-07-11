@@ -42,10 +42,11 @@ public class PlayerController : MonoBehaviour
                 print(GameMode.Instance.gameObject);
             }
         }
-        var targetpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var dir = (targetpos - transform.position).normalized;
-        dir.z = 0;
-        transform.up = dir;
+        //var targetpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //var dir = (targetpos - transform.position).normalized;
+        //dir.z = 0;
+        if (movement.x !=0 || movement.y != 0)    
+            transform.up = movement.normalized;
         TryInteractive();
         // if (itemonfloor != null && handsitem == 0 && Input.GetMouseButtonDown(0))
         // {
