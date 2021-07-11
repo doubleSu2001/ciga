@@ -155,16 +155,7 @@ public class GameMode : MonoBehaviour
             {
                 for(int i = 0; i < ChildWave[WaveIndex].Count; i++)
                 {
-                    int code = 1;
-                    if(ChildWave[WaveIndex].Type == ChildType.Chaos)
-                    {
-                        code = 3;
-                    }
-                    else
-                    {
-                        code = Random.Range(1, 3);
-                    }
-                    SpawnActor(ESpawn.熊孩子, BirthPlace, code);
+                    SpawnActor(ESpawn.熊孩子, BirthPlace, (int)ChildWave[WaveIndex].Type);
                 }
                 WaveIndex++;
             }
@@ -206,7 +197,7 @@ public class GameMode : MonoBehaviour
     
 
     // 生成物体通用逻辑
-    public GameObject SpawnActor(ESpawn type, Transform transform, int ParamInfo = 0)
+    public GameObject SpawnActor(ESpawn type, Transform transform, int ParamInfo = 0, bool bBias = true)
     {
         GameObject temp = null;
         if(type == ESpawn.熊孩子)
@@ -224,7 +215,12 @@ public class GameMode : MonoBehaviour
         {
             temp = PrefabMap[type];
         }
-        var obj = Instantiate(temp, transform.position + transform.up, Quaternion.identity);
+        var rd = transform.position;
+        if (bBias)
+        {
+            rd += new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-2.5f, 2.5f), 0) + transform.up;
+        }
+        var obj = Instantiate(temp, rd, Quaternion.identity);
         var info = obj.GetComponent<ISpawnInfo>();
         if (info != null)
         {

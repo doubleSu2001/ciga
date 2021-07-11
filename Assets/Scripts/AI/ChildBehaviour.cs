@@ -272,7 +272,7 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     {
         if(TrainOnHand != 0)
         {
-            GameMode.Instance.SpawnActor(ESpawn.火车, transform, TrainOnHand);
+            GameMode.Instance.SpawnActor(ESpawn.火车, transform, TrainOnHand, false);
             TrainOnHand = 0;
         }
     }
