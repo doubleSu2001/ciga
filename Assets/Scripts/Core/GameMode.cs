@@ -107,7 +107,10 @@ public class GameMode : MonoBehaviour
 
         foreach (var it in Gifts)
         {
-            GiftMap[it.name] = it;
+            if(null != it && null != it.name)
+            {
+                GiftMap[it.name] = it;
+            }
         }
     }
 

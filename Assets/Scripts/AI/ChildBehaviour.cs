@@ -76,8 +76,9 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
     public float CurKeepTrainTime;
     public float WantAcc = 0;
     public float LifeTime;
-    
+
     public UnityEvent SuccessEvent;
+    public UnityEvent ErrorEvent;
     public UnityEvent FailEvent;
 
     // Start is called before the first frame update
@@ -89,7 +90,11 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         Finder = GetComponent<Pathfinding.IAstarAI>();
         LifeTime = 0;
         SuccessEvent.AddListener(OnGiveEnd);
+        ErrorEvent.AddListener(OnGiveEnd);
         FailEvent.AddListener(OnGiveEnd);
+        SuccessEvent.AddListener(GameMode.Instance.OnGiveChildSuccessEvent);
+        ErrorEvent.AddListener(GameMode.Instance.OnGiveChildErrorEvent);
+        FailEvent.AddListener(GameMode.Instance.OnGiveChildFailEvent);
     }
 
     // Update is called once per frame
@@ -221,11 +226,11 @@ public class ChildBehaviour : MonoBehaviour, IInteractiveElement, ISpawnInfo
         print("给了火车");
         if(NeedTrain == InCode)
         {
-            SuccessEvent.Invoke();
+            SuccessEvent.Invoke();// 给对
         }
         else
         {
-            FailEvent.Invoke();
+            ErrorEvent.Invoke();// 给错
         }
         NeedTrain = 0;
         return 0;
